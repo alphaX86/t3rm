@@ -18,7 +18,7 @@ const ASCII_LOGO = [
   "    ██║   ██████╔╝██║  ██║██║ ╚═╝ ██║",
   "    ╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝",
   "",
-  "v.1.0.0 - Terminal Portfolio",
+  "v.1.0.1 - Terminal Portfolio",
   "",
   "Hello @guest! Welcome to my terminal portfolio.",
   "Type 'help' to see available commands.",
