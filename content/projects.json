@@ -1,15 +1,15 @@
 [
   {
     "id": "project-1",
-    "title": "T3RM Portfolio",
+    "title": "T3RM",
     "description": "A terminal-style portfolio website with interactive CLI navigation",
     "tech": ["Next.js", "TypeScript", "Tailwind CSS", "GSAP"],
-    "github": "https://github.com/yourusername/t3rm",
-    "live": "https://t3rm.dev"
+    "github": "https://github.com/alphaX86/t3rm",
+    "live": "https://t3rm.kyro1.com"
   },
   {
     "id": "project-2",
-    "title": "Meshery",
+    "title": "Meshery (OSS Project)",
     "description": "Cloud native management plane that enables the adoption, operation, and management of cloud native applications and infrastructure.",
     "tech": ["Go", "React", "Kubernetes", "Docker"],
     "github": "https://github.com/meshery/meshery",
@@ -20,7 +20,7 @@
     "title": "Non-Native English Accent Classifier",
     "description": "A VGG16-LinearSVC based Deep-Learning model designed to classify the accents of non-native English Indian speakers based on the audio amplitude and MFCC features present at the given time interval.",
     "tech": ["Python", "Keras", "SciPy", "Librosa"],
-    "github": "https://github.com/yourusername/example",
+    "github": "https://github.com/k173-x/accent-vgg",
     "live": ""
   },
   {

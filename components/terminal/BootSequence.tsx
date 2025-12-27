@@ -8,17 +8,22 @@ interface BootSequenceProps {
 }
 
 const BOOT_MESSAGES = [
-  { text: "BIOS v2.4.1 - T3RM Systems", delay: 100 },
+  { text: "BIOS v2.4.1 - Kyro1 Inc.", delay: 100 },
   { text: "Checking memory... 640K OK", delay: 200 },
   { text: "Detecting hardware...", delay: 150 },
   { text: "  - Display: CRT Monitor (Phosphor Green)", delay: 100 },
-  { text: "  - Keyboard: Mechanical (Cherry MX)", delay: 100 },
+  { text: "  - Keyboard: Mechanical", delay: 100 },
   { text: "  - Network: Connected", delay: 100 },
-  { text: "Loading portfolio kernel...", delay: 300 },
+  { text: "Loading T3RM kernel...", delay: 300 },
   { text: "Mounting /home/guest/portfolio...", delay: 200 },
-  { text: "Starting terminal service...", delay: 150 },
-  { text: "", delay: 100 },
-  { text: "System ready.", delay: 200 },
+  { text: "Initializing services:", delay: 150 },
+  { text: "  - Web Server... started", delay: 100 },
+  { text: "Creating user: guest..", delay: 100 },
+  { text: "Logging in as @guest", delay: 100 },
+  { text: "User authentication... successful", delay: 2000 },
+  { text: "Starting T3RM service...", delay: 150 },
+  { text: "", delay: 2000 },
+  { text: "Systems ready. GO!", delay: 200 },
 ];
 
 export default function BootSequence({ onComplete }: BootSequenceProps) {
