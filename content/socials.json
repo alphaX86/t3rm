@@ -1,0 +1,26 @@
+[
+  {
+    "id": "github",
+    "name": "GitHub",
+    "url": "https://github.com/alphaX86",
+    "icon": "github"
+  },
+  {
+    "id": "linkedin",
+    "name": "LinkedIn",
+    "url": "https://linkedin.com/in/alphaX86",
+    "icon": "linkedin"
+  },
+  {
+    "id": "twitter",
+    "name": "X",
+    "url": "https://x.com/KryoX64",
+    "icon": "twitter"
+  },
+  {
+    "id": "email",
+    "name": "Email",
+    "url": "mailto:aadhitya@kyro1.com",
+    "icon": "mail"
+  }
+]

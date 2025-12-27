@@ -1,26 +1,268 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #33ff33;
+  --terminal-bg: #0d0d0d;
+  --terminal-border: #1a3a1a;
+  --terminal-header: #0a1a0a;
+  --font-terminal: "VT323", "Courier New", monospace;
+  --glow-color: rgba(51, 255, 51, 0.5);
+}
+
+[data-theme="light"] {
+  --background: #f0fff0;
+  --foreground: #006400;
+  --terminal-bg: #e8f5e8;
+  --terminal-border: #90ee90;
+  --terminal-header: #d0f0d0;
+  --glow-color: rgba(0, 100, 0, 0.3);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-mono: var(--font-terminal);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-terminal);
+  text-shadow: 0 0 5px var(--glow-color);
 }
+
+/* Terminal Styles */
+.terminal {
+  width: 100%;
+  height: 100vh;
+  background: var(--terminal-bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono), monospace;
+  position: relative;
+}
+
+/* CRT Scanlines Effect */
+.terminal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* CRT Screen Flicker */
+.terminal::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(51, 255, 51, 0.03);
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+  z-index: 9;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.27; }
+  5% { opacity: 0.34; }
+  10% { opacity: 0.27; }
+  15% { opacity: 0.34; }
+  20% { opacity: 0.27; }
+  25% { opacity: 0.34; }
+  30% { opacity: 0.27; }
+  35% { opacity: 0.4; }
+  40% { opacity: 0.34; }
+  45% { opacity: 0.27; }
+  50% { opacity: 0.34; }
+  55% { opacity: 0.27; }
+  60% { opacity: 0.34; }
+  65% { opacity: 0.27; }
+  70% { opacity: 0.4; }
+  75% { opacity: 0.34; }
+  80% { opacity: 0.27; }
+  85% { opacity: 0.34; }
+  90% { opacity: 0.27; }
+  95% { opacity: 0.34; }
+  100% { opacity: 0.27; }
+}
+
+.terminal-header {
+  background: var(--terminal-header);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--terminal-border);
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.terminal-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-button.close {
+  background: #ff5f57;
+}
+
+.terminal-button.minimize {
+  background: #febc2e;
+}
+
+.terminal-button.maximize {
+  background: #28c840;
+}
+
+.terminal-title {
+  font-size: 12px;
+  color: #888;
+  flex: 1;
+  text-align: center;
+  margin-right: 52px;
+}
+
+.terminal-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.terminal-welcome {
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.output-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.output-entry {
+  border-left: 2px solid transparent;
+  padding-left: 0;
+}
+
+.output-command {
+  color: var(--foreground);
+}
+
+.output-result {
+  margin-top: 8px;
+  padding-left: 8px;
+}
+
+.command-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  cursor: text;
+}
+
+.prompt {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+}
+
+.input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 8px;
+}
+
+.input-text {
+  color: var(--foreground);
+  white-space: pre;
+}
+
+.command-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: transparent;
+  padding: 0;
+}
+
+.cursor {
+  color: var(--foreground);
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Scrollbar */
+.terminal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Light theme scrollbar */
+[data-theme="light"] .terminal-body::-webkit-scrollbar-thumb {
+  background: #ccc;
+}
+
+[data-theme="light"] .terminal-body::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+/* Typewriter animation */
+.typewriter-line {
+  min-height: 1.4em;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  color: var(--foreground);
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+

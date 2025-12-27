@@ -1,0 +1,34 @@
+[
+  {
+    "id": "project-1",
+    "title": "T3RM Portfolio",
+    "description": "A terminal-style portfolio website with interactive CLI navigation",
+    "tech": ["Next.js", "TypeScript", "Tailwind CSS", "GSAP"],
+    "github": "https://github.com/yourusername/t3rm",
+    "live": "https://t3rm.dev"
+  },
+  {
+    "id": "project-2",
+    "title": "Meshery",
+    "description": "Cloud native management plane that enables the adoption, operation, and management of cloud native applications and infrastructure.",
+    "tech": ["Go", "React", "Kubernetes", "Docker"],
+    "github": "https://github.com/meshery/meshery",
+    "live": "https://meshery.io"
+  },
+  {
+    "id": "project-3",
+    "title": "Non-Native English Accent Classifier",
+    "description": "A VGG16-LinearSVC based Deep-Learning model designed to classify the accents of non-native English Indian speakers based on the audio amplitude and MFCC features present at the given time interval.",
+    "tech": ["Python", "Keras", "SciPy", "Librosa"],
+    "github": "https://github.com/yourusername/example",
+    "live": ""
+  },
+  {
+    "id": "project-4",
+    "title": "Prediction of Stocks using CNN-LSTM",
+    "description": "A ML project which uses CNN-LSTM Neural Network that combines features of CNN and LSTM models to predict the stocks with great accuracy.",
+    "tech": ["Python", "TF", "Keras", "Pandas", "NumPy"],
+    "github": "https://github.com/Circle-1/Stock-X",
+    "live": ""
+  }
+]
