@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { VT323 } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
 
 const vt323 = VT323({
   variable: "--font-terminal",
@@ -40,6 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${vt323.variable} antialiased`}>
+        <Analytics />
         {children}
       </body>
     </html>
