@@ -30,7 +30,7 @@ export default function MatrixRain({ onComplete }: MatrixRainProps) {
     }
 
     let frameCount = 0;
-    const maxFrames = 300; // ~5 seconds at 60fps
+    const maxFrames = 10000; // Duration of the effect
 
     const draw = () => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
