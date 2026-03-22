@@ -1,0 +1,62 @@
+[
+  {
+    "category": "dev",
+    "text": "It's not a bug, it's a feature."
+  },
+  {
+    "category": "dev",
+    "text": "There are 10 types of people: those who understand binary and those who don't."
+  },
+  {
+    "category": "dev",
+    "text": "A SQL query walks into a bar, walks up to two tables and asks... 'Can I join you?'"
+  },
+  {
+    "category": "dev",
+    "text": "Why do programmers prefer dark mode? Because light attracts bugs."
+  },
+  {
+    "category": "dev",
+    "text": "I would love to change the world, but they won't give me the source code."
+  },
+  {
+    "category": "motivation",
+    "text": "Talk is cheap. Show me the code. - Linus Torvalds"
+  },
+  {
+    "category": "motivation",
+    "text": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. - Martin Fowler"
+  },
+  {
+    "category": "motivation",
+    "text": "First, solve the problem. Then, write the code. - John Johnson"
+  },
+  {
+    "category": "motivation",
+    "text": "Java is to JavaScript what car is to Carpet. - Chris Heilmann"
+  },
+  {
+    "category": "motivation",
+    "text": "Knowledge is power."
+  },
+  {
+    "category": "life",
+    "text": "If debugging is the process of removing software bugs, then programming must be the process of putting them in. - Edsger Dijkstra"
+  },
+  {
+    "category": "life",
+    "text": "Experience is the name everyone gives to their mistakes. - Oscar Wilde"
+  },
+  {
+    "category": "life",
+    "text": "Code is like humor. When you have to explain it, it's bad. - Cory House"
+  },
+  {
+    "category": "life",
+    "text": "Fix the cause, not the symptom. - Tom DeMarco"
+  },
+  {
+    "category": "life",
+    "text": "Optimism is an occupational hazard of programming: feedback is the treatment. - Kent Beck"
+  }
+]

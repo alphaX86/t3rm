@@ -10,6 +10,9 @@ import MatrixRain from "./MatrixRain";
 import { commands, parseCommand, isValidCommand } from "@/lib/commands";
 import type { CommandOutput } from "@/lib/types";
 
+// Konami Code sequence: ↑ ↑ ↓ ↓ (simplified)
+const KONAMI_CODE = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown"];
+
 const ASCII_LOGO = [
   " ████████╗██████╗ ██████╗ ███╗   ███╗",
   " ╚══██╔══╝╚════██╗██╔══██╗████╗ ████║",
@@ -18,7 +21,7 @@ const ASCII_LOGO = [
   "    ██║   ██████╔╝██║  ██║██║ ╚═╝ ██║",
   "    ╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝",
   "",
-  "v.1.0.4 - Terminal Portfolio",
+  "v.1.0.5 - Terminal Portfolio",
   "",
   "Hello @guest! Welcome to my terminal portfolio.",
   "Type 'help' to see available commands.",
@@ -28,10 +31,12 @@ export default function Terminal() {
   const [history, setHistory] = useState<CommandOutput[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light" | "cyberpunk">("dark");
   const [bootComplete, setBootComplete] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [showMatrix, setShowMatrix] = useState(false);
+  const [konamiProgress, setKonamiProgress] = useState(0);
+  const [konamiUnlocked, setKonamiUnlocked] = useState(false);
   const terminalRef = useRef<HTMLDivElement>(null);
   const outputEndRef = useRef<HTMLDivElement>(null);
 
@@ -53,16 +58,74 @@ export default function Terminal() {
 
   useEffect(() => {
     // Apply theme to document
-    document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.theme = theme === "rainbow" ? "dark" : theme;
   }, [theme]);
 
+  // Konami Code detection - works globally when input is empty or not focused
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isInputFocused = target.tagName === "INPUT" || target.tagName === "TEXTAREA";
+
+      // If input is focused and has text, don't capture (user is typing)
+      if (isInputFocused && (target as HTMLInputElement).value?.length > 0) {
+        return;
+      }
+
+      const key = e.key.toLowerCase();
+      const expectedKey = KONAMI_CODE[konamiProgress].toLowerCase();
+
+      if (key === expectedKey) {
+        const newProgress = konamiProgress + 1;
+        setKonamiProgress(newProgress);
+
+        if (newProgress === KONAMI_CODE.length) {
+          // Konami Code complete!
+          setKonamiUnlocked(true);
+          setKonamiProgress(0);
+          setTheme("rainbow");
+
+          // Clear input if it was focused
+          if (isInputFocused) {
+            (target as HTMLInputElement).value = "";
+            target.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+
+          // Add celebration message
+          const celebrationOutput: CommandOutput = {
+            id: crypto.randomUUID(),
+            command: "",
+            output: (
+              <div className="text-center py-4">
+                <p className="text-2xl mb-2">🎉 🌈 KONAMI CODE ACTIVATED! 🌈 🎉</p>
+                <p className="text-zinc-400">Rainbow mode unlocked! Type <span className="text-green-400">theme</span> to disable.</p>
+              </div>
+            ),
+            timestamp: Date.now(),
+          };
+          setHistory((prev) => [...prev, celebrationOutput]);
+        }
+      } else {
+        // Reset progress on wrong key (but allow same key to start sequence)
+        setKonamiProgress(key === KONAMI_CODE[0].toLowerCase() ? 1 : 0);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [konamiProgress]);
+
   const handleCommand = (input: string) => {
-    const command = parseCommand(input);
-    
-    if (!command) return;
+    const fullCommand = input.trim();
+    if (!fullCommand) return;
+
+    // Parse command and args (e.g., "cowsay hello" -> command: "cowsay", args: "hello")
+    const spaceIndex = fullCommand.indexOf(' ');
+    const command = spaceIndex > 0 ? fullCommand.slice(0, spaceIndex).toLowerCase() : fullCommand.toLowerCase();
+    const args = spaceIndex > 0 ? fullCommand.slice(spaceIndex + 1) : undefined;
 
     // Add to command history for arrow navigation
-    setCommandHistory((prev) => [...prev, command]);
+    setCommandHistory((prev) => [...prev, fullCommand]);
     setHistoryIndex(-1);
 
     // Handle special commands
@@ -72,11 +135,15 @@ export default function Terminal() {
     }
 
     if (command === "theme") {
-      setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+      setTheme((prev) => {
+        if (prev === "dark") return "light";
+        if (prev === "light") return "dark";
+        return "dark"; // rainbow goes back to dark
+      });
       const newOutput: CommandOutput = {
         id: crypto.randomUUID(),
-        command: input,
-        output: `Theme switched to ${theme === "dark" ? "light" : "dark"} mode.`,
+        command: fullCommand,
+        output: `Theme switched to ${theme === "rainbow" ? "dark" : theme === "dark" ? "light" : "dark"} mode.`,
         timestamp: Date.now(),
       };
       setHistory((prev) => [...prev, newOutput]);
@@ -96,10 +163,10 @@ export default function Terminal() {
       ) : (
         <span className="text-zinc-500">No commands in history</span>
       );
-      
+
       const newOutput: CommandOutput = {
         id: crypto.randomUUID(),
-        command: input,
+        command: fullCommand,
         output: historyOutput,
         timestamp: Date.now(),
       };
@@ -115,7 +182,7 @@ export default function Terminal() {
       );
       const newOutput: CommandOutput = {
         id: crypto.randomUUID(),
-        command: input,
+        command: fullCommand,
         output: bannerOutput,
         timestamp: Date.now(),
       };
@@ -127,7 +194,7 @@ export default function Terminal() {
       setShowMatrix(true);
       const newOutput: CommandOutput = {
         id: crypto.randomUUID(),
-        command: input,
+        command: fullCommand,
         output: <span className="text-green-400">Entering the Matrix... (click to exit)</span>,
         timestamp: Date.now(),
       };
@@ -138,7 +205,7 @@ export default function Terminal() {
     // Handle regular commands
     let output: React.ReactNode;
     if (isValidCommand(command)) {
-      output = commands[command].execute();
+      output = commands[command].execute(args);
     } else {
       output = (
         <span className="text-red-400">
@@ -149,7 +216,7 @@ export default function Terminal() {
 
     const newOutput: CommandOutput = {
       id: crypto.randomUUID(),
-      command: input,
+      command: fullCommand,
       output,
       timestamp: Date.now(),
     };

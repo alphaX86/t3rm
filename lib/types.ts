@@ -25,7 +25,7 @@ export interface CommandOutput {
 
 export interface CommandHandler {
   description: string;
-  execute: () => ReactNode;
+  execute: (args?: string) => ReactNode;
 }
 
 export type CommandRegistry = Record<string, CommandHandler>;
